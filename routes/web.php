@@ -1,5 +1,9 @@
 <?php
 
+
+
+use App\Http\Controllers\AuthController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,3 +19,12 @@ Route::get('/{any}', function () {
     return view('welcome'); 
 })->where('any', '.*');
 
+Route::any('/login', [AuthController::class, 'login']);
+
+Route::middleware(['auth:user'])->group(function () {
+    Route::get('/user/dashboard', 'UserController@dashboard')->name('user.dashboard');
+});
+
+Route::middleware(['auth:distributor'])->group(function () {
+    Route::get('/distributor/dashboard', 'DistributorController@dashboard')->name('distributor.dashboard');
+});

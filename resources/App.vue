@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import ExampleComponent from './assets/js/components/ExampleComponent.vue';
+import ExampleComponent from './assets/js/components/LoginComponent.vue';
 
 export default {
   name: 'App',

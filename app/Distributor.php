@@ -2,23 +2,16 @@
 
 namespace App;
 
-use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
+use Jenssegers\Mongodb\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
-class Distributor extends Eloquent
+class Distributor extends Authenticatable implements AuthenticatableContract, CanResetPasswordContract
 {
-    /**
-     * The collection associated with the model.
-     *
-     * @var string
-     */
-    protected $collection = 'distributors';
+    use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name', 'email', 'password', // Add other fields as necessary
-    ];
+    protected $connection = 'mongodb';
+    protected $collection = 'distributors';
+    // Other necessary configurations
 }

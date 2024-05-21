@@ -1,30 +1,41 @@
-// resources/assets/js/router.js
-
 import Vue from 'vue';
-import VueRouter from 'vue-router';
+import Router from 'vue-router';
+import UserDashboard from './components/UserDashboard.vue';
+import DistributorDashboard from './components/DistributorDashboard.vue';
+import LoginComponent from './components/LoginComponent.vue';
 
-Vue.use(VueRouter);
+Vue.use(Router);
 
-import Home from './components/Home.vue';
-import Login from './components/ExampleComponent.vue';
+const router = new Router({
+  routes: [
+    {
+      path: '/',
+      component: LoginComponent,
+    },
+    {
+      path: '/user/dashboard',
+      component: UserDashboard,
+      meta: { role: 'user' },
+    },
+    {
+      path: '/distributor/dashboard',
+      component: DistributorDashboard,
+      meta: { role: 'distributor' },
+    },
+  ],
+});
 
-const routes = [
-  {
-    path: '/home',
-    name: 'home',
-    component: Home
-  },
-  {
-    path: '/',
-    name: 'login',
-    component: Login
+router.beforeEach((to, from, next) => {
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  const role = localStorage.getItem('role');
+
+  if (requiresAuth && !role) {
+    next('/login');
+  } else if (requiresAuth && role !== to.meta.role) {
+    next('/');
+  } else {
+    next();
   }
-  // Add more routes here if needed
-];
-
-const router = new VueRouter({
-  mode: 'history',
-  routes
 });
 
 export default router;

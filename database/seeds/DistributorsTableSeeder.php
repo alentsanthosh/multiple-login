@@ -20,7 +20,7 @@ class DistributorsTableSeeder extends Seeder
             Distributor::create([
                 'name' => 'Distributor '.$i,
                 'email' => 'distributor'.$i.'@example.com',
-                'password' => 'distributorpassword', 
+                'password' => Hash::make('distributorpassword'), 
             ]);
         }
     }
